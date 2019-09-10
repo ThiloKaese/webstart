@@ -452,7 +452,9 @@ public class JnlpDownloadServletMojo
 
             // first try to resolv from reactor
             MavenProject siblingProject = artifactUtil.resolveFromReactor( artifact, getProject(), reactorProjects );
-            if ( siblingProject == null )
+            //exclude jarResouces with classifier because reactor doesn't support calssifier
+            if ( siblingProject == null ||
+                 (jarResource.getClassifier()!=null && !jarResource.getClassifier().equals("")))
             {
                 // try to resolve from repositories
                 artifactUtil.resolveFromRepositories( artifact, getRemoteRepositories(), getLocalRepository() );
